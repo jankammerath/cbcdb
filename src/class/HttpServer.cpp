@@ -36,7 +36,7 @@ int HttpServer::handleRequest(void * cls, struct MHD_Connection * connection,
 
     /* handle POST/PUT operations and theor upload data:
         https://stackoverflow.com/questions/36416422/process-post-data-in-microhttp-server-in-c */
-    if(ptr != NULL && *ptr != NULL){
+    if(ptr != NULL){
         struct postStatus *post = NULL;
         post = (struct postStatus*)*ptr;
 
@@ -52,17 +52,18 @@ int HttpServer::handleRequest(void * cls, struct MHD_Connection * connection,
             return MHD_YES;
         } else {
             if(*upload_data_size != 0) {
-                cout << "upload_data_size:" << std::to_string(*upload_data_size) << endl;
                 post->buff = (char*)malloc(*upload_data_size + 1);
                 strncpy(post->buff, upload_data, *upload_data_size);
                 post->buff[*upload_data_size] = 0;
                 *upload_data_size = 0;
                 return MHD_YES;
             } else {
-                uploadData.assign(post->buff);
+                if(post->buff != NULL){
+                    uploadData.assign(post->buff);
+                }
                 free(post->buff);
             }
-        } 
+        }
 
         /* free the post struct if still there */
         if(post != NULL){
