@@ -5,4 +5,4 @@ FROM opensuse/tumbleweed:latest
 WORKDIR /cbcdb/
 
 # run a system update and install required libs
-RUN zypper -n install gcc-c++ make glib2-devel libconfig++-devel libmicrohttpd-devel
+RUN zypper -n install gcc-c++ make glib2-devel libconfig++-devel libmicrohttpd-devel jsoncpp-devel
