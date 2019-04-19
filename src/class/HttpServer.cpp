@@ -36,7 +36,7 @@ int HttpServer::handleRequest(void * cls, struct MHD_Connection * connection,
 
     /* handle POST/PUT operations and theor upload data:
         https://stackoverflow.com/questions/36416422/process-post-data-in-microhttp-server-in-c */
-    if(methodString != "GET" && ptr != NULL){
+    if(ptr != NULL && *ptr != NULL){
         struct postStatus *post = NULL;
         post = (struct postStatus*)*ptr;
 
