@@ -1,7 +1,6 @@
 /* include standard libraries */
 #include <iostream>
 #include <unistd.h>
-#include <sys/stat.h>
 #include <libconfig.h++>
 
 /* define namespaces */
@@ -9,14 +8,9 @@ using namespace std;
 using namespace libconfig;
 
 /* include customer header files */
+#include "class/FileSystem.hpp"
 #include "class/Logger.hpp"
 #include "class/Service.hpp"
-
-/* checks if a file exists and returns true if it exists, otherwise false */
-bool file_exists(const std::string& name){
-  struct stat buffer;   
-  return (stat (name.c_str(), &buffer) == 0);     
-}
 
 /* determines which config file to use and returns its path */
 string getConfigFile(){
@@ -24,7 +18,7 @@ string getConfigFile(){
 
     string fileList[] = {"./cbcdb.conf","./bin/cbcdb.conf","/etc/cbcdb.conf"};
     for(const string &filePath : fileList){
-        if(file_exists(filePath)){
+        if(FileSystem::fileExists(filePath)){
             result = filePath;
         }
     }

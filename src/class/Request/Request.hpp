@@ -20,6 +20,14 @@ class Request {
             this->blockId = id;
         }
 
+        string getChainName(){
+            return this->chainName;
+        }
+
+        string getBlockId(){
+            return this->blockId;
+        }
+
         static Request* createRequest(string method, string url, string data);
         
     protected:
