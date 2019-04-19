@@ -52,12 +52,15 @@ int HttpServer::handleRequest(void * cls, struct MHD_Connection * connection,
             return MHD_YES;
         } else {
             if(*upload_data_size != 0) {
+                /* copy the upload data to the buffer */
                 post->buff = (char*)malloc(*upload_data_size + 1);
                 strncpy(post->buff, upload_data, *upload_data_size);
                 post->buff[*upload_data_size] = 0;
                 *upload_data_size = 0;
                 return MHD_YES;
             } else {
+                /* buff will be NULL for GET and empty POST-bodies 
+                    and if it is not checked here, string.assign will segfault */
                 if(post->buff != NULL){
                     uploadData.assign(post->buff);
                 }
@@ -74,7 +77,7 @@ int HttpServer::handleRequest(void * cls, struct MHD_Connection * connection,
     /* get size of upload and define default result */
     string jsonResult = "{\"status\":\"fail\", \"url\": \"" + urlString 
                         + "\", \"method\": \"" + methodString + "\", "
-                        + "\"uploadSize\": " + std::to_string(uploadData.size()) + "}";
+                        + "\"payload\": " + std::to_string(uploadData.size()) + "}";
 
     /* it is absolutely vital to use MHD_RESPMEM_MUST_COPY as otherwise memory exceptions will occur.
         See further information here: https://www.gnu.org/software/libmicrohttpd/manual/html_node/microhttpd_002dresponse-create.html */
