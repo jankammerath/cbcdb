@@ -5,7 +5,7 @@ using namespace std;
 /* constructs the object and sets default values */
 Service::Service(int servicePort){
     this->port = servicePort;
-    this->server = new HttpServer(this->port);
+    this->server = new HttpServer(this->port,(void*)Service::handleRequest);
 }
 
 /* returns whether service is terminated or not */
@@ -17,6 +17,10 @@ bool Service::isTerminated(){
 bool Service::start(){
     this->server->start();
     return this->server->isActive();
+}
+
+void Service::handleRequest(string method, string url, string data){
+    cout << "Callback shyte is working nicely: " << method << " " << url << " --- data: " << data << endl;
 }
 
 string Service::getName(){

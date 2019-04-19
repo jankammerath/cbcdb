@@ -4,7 +4,7 @@ using namespace std;
 
 class HttpServer {
     public:
-        HttpServer(int serverPort);
+        HttpServer(int serverPort, void* requestHandler);
         void start();
         void stop();
         bool isActive();
@@ -19,5 +19,6 @@ class HttpServer {
 
     private:
         int port;
+        void* handler;
         struct MHD_Daemon* daemonHandle;
 };

@@ -12,14 +12,15 @@ struct postStatus {
     char *buff;
 };
 
-HttpServer::HttpServer(int serverPort){
+HttpServer::HttpServer(int serverPort, void* requestHandler){
     this->port = serverPort;
+    this->handler = requestHandler;
 }
 
 /* starts the http server */
 void HttpServer::start(){
     this->daemonHandle = MHD_start_daemon(MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG,
-		       this->port, NULL, NULL, &HttpServer::handleRequest, NULL, MHD_OPTION_END);
+		       this->port, NULL, NULL, &HttpServer::handleRequest, this->handler, MHD_OPTION_END);
 }
 
 /* handles all http requests to this server */
@@ -73,6 +74,10 @@ int HttpServer::handleRequest(void * cls, struct MHD_Connection * connection,
             free(post); 
         }
     }
+
+    /* execute external request handler */
+    void (*handlerFunc)(string,string,string) = (void(*)(string,string,string))cls;
+    handlerFunc(methodString,urlString,uploadData);
 
     /* get size of upload and define default result */
     string jsonResult = "{\"status\":\"fail\", \"url\": \"" + urlString 

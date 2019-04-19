@@ -7,6 +7,7 @@ class Service {
         string getName();
         bool isTerminated();
         bool start();
+        static void handleRequest(string method, string url, string data);
 
     private:
         bool terminated;
