@@ -9,7 +9,7 @@ class Request {
     public:
         /* public methods */
         Request(){
-            
+            this->type = GET;
         };
 
         void setChainName(string name){
@@ -22,12 +22,15 @@ class Request {
 
         static Request* createRequest(string method, string url, string data);
         
+    protected:
+        /* protected members */
+        RequestType type;
+
     private:
         /* private methods */
         static vector<string> getPathListFromUrl(string url);
 
         /* private members */
-        RequestType type;
         string chainName;
         string blockId;
 };

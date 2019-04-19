@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = `pkg-config --cflags --libs glib-2.0 libconfig++ libmicrohttpd jsoncpp`
+CFLAGS = `pkg-config --cflags --libs libconfig++ libmicrohttpd jsoncpp openssl`
 
 # this makes the binary
 all:
