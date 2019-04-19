@@ -76,8 +76,9 @@ int HttpServer::handleRequest(void * cls, struct MHD_Connection * connection,
     }
 
     /* execute external request handler */
-    string (*handlerFunc)(string,string,string) = (string(*)(string,string,string))cls;
-    string jsonResult = handlerFunc(methodString,urlString,uploadData);
+    HttpResult (*handlerFunc)(string,string,string) = (HttpResult(*)(string,string,string))cls;
+    HttpResult httpResult = handlerFunc(methodString,urlString,uploadData);
+    string jsonResult = httpResult.content;
 
     /* define default result */
     if(jsonResult.empty()){
@@ -90,7 +91,7 @@ int HttpServer::handleRequest(void * cls, struct MHD_Connection * connection,
         See further information here: https://www.gnu.org/software/libmicrohttpd/manual/html_node/microhttpd_002dresponse-create.html */
     response = MHD_create_response_from_buffer (jsonResult.size(),(void*)jsonResult.c_str(),MHD_RESPMEM_MUST_COPY);
     MHD_add_response_header (response, "Content-Type", CONTENT_TYPE);
-    result = MHD_queue_response(connection, MHD_HTTP_OK, response);
+    result = MHD_queue_response(connection, httpResult.status, response);
     MHD_destroy_response(response);
 
     /* clear context pointer */

@@ -7,8 +7,23 @@ Storage::Storage(string storagePath){
     this->path = storagePath;
 }
 
-void Storage::execute(GetRequest request){
-    
+GetResponse* Storage::execute(GetRequest* request){
+    GetResponse* result = new GetResponse();
+
+    return result;
+}
+
+Response* Storage::execute(Request* request){
+    Response* result = new Response();
+
+    switch(request->getType()){
+        case GET:
+            /* this is a get request, execute as get request */
+            result = this->execute((GetRequest*)request);
+            break;
+    }
+
+    return result;
 }
 
 bool Storage::chainExists(string chainName){

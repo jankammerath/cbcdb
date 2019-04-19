@@ -28,6 +28,10 @@ class Request {
             return this->blockId;
         }
 
+        RequestType getType(){
+            return this->type;
+        }
+
         static Request* createRequest(string method, string url, string data);
         
     protected:

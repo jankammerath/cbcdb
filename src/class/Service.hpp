@@ -11,7 +11,7 @@ class Service {
         bool start();
 
         /* static public methods */
-        static string handleRequest(string method, string url, string data);
+        static HttpResult handleRequest(string method, string url, string data);
         static void setInstance(Service* newInstance);
         static Service* getInstance();
         

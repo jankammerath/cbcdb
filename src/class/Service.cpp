@@ -2,6 +2,7 @@
 using namespace std;
 #include "Service.hpp"
 #include "Request/Request.hpp"
+#include "Response/Response.hpp"
 
 #define SERVICE_NAME "CBCDB"
 
@@ -27,11 +28,19 @@ bool Service::start(){
 }
 
 /* handles requests and creates service request objects */
-string Service::handleRequest(string method, string url, string data){
+HttpResult Service::handleRequest(string method, string url, string data){
+    HttpResult result;
+    result.status = 400;
+    result.content = "";
+
     /* create the instance of the request class */
     Request* request = Request::createRequest(method,url,data);
 
-    return "";
+    /* get the service instance */
+    Service* service = Service::getInstance();
+    Response* response = service->storage->execute(request);
+
+    return result;
 }
 
 /* returns the name of the service */

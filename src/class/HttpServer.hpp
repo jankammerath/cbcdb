@@ -2,6 +2,11 @@
 #include <microhttpd.h>
 using namespace std;
 
+struct HttpResult {
+    int status;
+    string content;
+};
+
 class HttpServer {
     public:
         HttpServer(int serverPort, void* requestHandler);
