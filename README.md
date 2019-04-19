@@ -4,9 +4,9 @@
 
 ## URL Structure
 
-GET /chain                              lists all chains in the collection
-GET /chain/mychainname                  lists all blocks in the chain "mychainname"
-GET /chain/mychainname/myblockid        lists the block "myblockid" in the chain "mychainname"
+GET /                           all chains in the collection
+GET /mychainname                all blocks in the chain "mychainname"
+GET /mychainname/myblockid      the block "myblockid" in the chain "mychainname"
 
 Reserved internal chain names: user, peer
 

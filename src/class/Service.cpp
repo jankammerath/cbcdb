@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 #include "Service.hpp"
+#include "Request/Request.hpp"
 
 #define SERVICE_NAME "CBCDB"
 
@@ -27,12 +28,8 @@ bool Service::start(){
 
 /* handles requests and creates service request objects */
 string Service::handleRequest(string method, string url, string data){
-    cout << "Callback shyte is working nicely: " << method << " " << url << " --- data: " << data << endl;
-
-    /* get is for simple queries to retrieve data */
-    if(method == "GET"){
-
-    }
+    /* create the instance of the request class */
+    Request* request = Request::createRequest(method,url,data);
 
     return "";
 }
