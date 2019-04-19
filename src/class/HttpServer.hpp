@@ -4,8 +4,9 @@ using namespace std;
 
 class HttpServer {
     public:
-        HttpServer();
+        HttpServer(int serverPort);
         void start();
+        void stop();
 
     private:
         int port;
