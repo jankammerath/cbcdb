@@ -12,8 +12,6 @@ using namespace libconfig;
 #include "class/Logger.hpp"
 #include "class/Service.hpp"
 
-#include "class/Crypto.hpp"
-
 /* checks if a file exists and returns true if it exists, otherwise false */
 bool file_exists(const std::string& name){
   struct stat buffer;   
@@ -35,8 +33,6 @@ string getConfigFile(){
 }
 
 int main() {
-    cout << "SHA512 for 'YEAH': " << Crypto::getSHA512("YEAH") << endl;
-
     /* create config instance */
     Config cfg;
 

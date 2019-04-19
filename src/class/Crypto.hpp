@@ -6,6 +6,7 @@ using namespace std;
 
 class Crypto {
     public:
+        /* generates a SHA512 hash for the text param and returns it as string */
         static string getSHA512(string text){
             string result = "";
 
