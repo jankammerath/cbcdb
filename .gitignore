@@ -1,4 +1,5 @@
 .vscode
 .header
 start.sh
+test.sh
 bin/
