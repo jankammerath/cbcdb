@@ -82,7 +82,8 @@ int HttpServer::handleRequest(void * cls, struct MHD_Connection * connection,
 
     /* define default result */
     if(jsonResult.empty()){
-        jsonResult = "{\"status\":\"fail\", \"url\": \"" + urlString 
+        jsonResult = "{\"status\": " + std::to_string(httpResult.status)
+                        + ", \"url\": \"" + urlString 
                         + "\", \"method\": \"" + methodString + "\", "
                         + "\"payload\": " + std::to_string(uploadData.size()) + "}";
     }

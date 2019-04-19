@@ -30,8 +30,6 @@ bool Service::start(){
 /* handles requests and creates service request objects */
 HttpResult Service::handleRequest(string method, string url, string data){
     HttpResult result;
-    result.status = 400;
-    result.content = "";
 
     /* create the instance of the request class */
     Request* request = Request::createRequest(method,url,data);
@@ -39,6 +37,10 @@ HttpResult Service::handleRequest(string method, string url, string data){
     /* get the service instance */
     Service* service = Service::getInstance();
     Response* response = service->storage->execute(request);
+
+    /* set the result from the response */
+    result.status = response->getStatus();
+    result.content = response->getJson();
 
     return result;
 }
