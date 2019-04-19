@@ -4,18 +4,19 @@ using namespace std;
 
 /* constructs the object and sets default values */
 Service::Service(int servicePort){
-    this->terminated = true;
     this->port = servicePort;
+    this->server = new HttpServer(this->port);
 }
 
 /* returns whether service is terminated or not */
 bool Service::isTerminated(){
-    return this->terminated;
+    return !this->server->isActive();
 }
 
 /* starts the service and listens for requests on the defined port */
 bool Service::start(){
-    return true;
+    this->server->start();
+    return this->server->isActive();
 }
 
 string Service::getName(){

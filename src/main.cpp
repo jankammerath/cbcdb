@@ -68,10 +68,7 @@ int main() {
     Logger::write("Service started on TCP port " + service->getName());
 
     /* launch the service and wait until it terminates */
-    while(service->isTerminated() == false){
-        Logger::write("Service is alive");
-        sleep(1);
-    }
+    while(service->isTerminated() == false){ sleep(1); }
 
     /* notify stdout of termination */
     Logger::write("Service terminated");

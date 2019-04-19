@@ -1,4 +1,5 @@
 using namespace std;
+#include "HttpServer.hpp"
 
 class Service {
     public:
@@ -10,4 +11,5 @@ class Service {
     private:
         bool terminated;
         int port;
+        HttpServer* server;
 };
