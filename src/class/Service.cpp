@@ -3,9 +3,8 @@ using namespace std;
 #include "Service.hpp"
 
 /* constructs the object and sets default values */
-Service::Service(int servicePort){
-    this->port = servicePort;
-    this->server = new HttpServer(this->port,(void*)Service::handleRequest);
+Service::Service(int servicePort, string storagePath){
+    this->server = new HttpServer(servicePort,(void*)Service::handleRequest);
 }
 
 /* returns whether service is terminated or not */
@@ -19,8 +18,11 @@ bool Service::start(){
     return this->server->isActive();
 }
 
-void Service::handleRequest(string method, string url, string data){
+/* handles requests and creates service request objects */
+string Service::handleRequest(string method, string url, string data){
     cout << "Callback shyte is working nicely: " << method << " " << url << " --- data: " << data << endl;
+
+    return "";
 }
 
 string Service::getName(){

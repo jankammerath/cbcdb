@@ -76,13 +76,15 @@ int HttpServer::handleRequest(void * cls, struct MHD_Connection * connection,
     }
 
     /* execute external request handler */
-    void (*handlerFunc)(string,string,string) = (void(*)(string,string,string))cls;
-    handlerFunc(methodString,urlString,uploadData);
+    string (*handlerFunc)(string,string,string) = (string(*)(string,string,string))cls;
+    string jsonResult = handlerFunc(methodString,urlString,uploadData);
 
-    /* get size of upload and define default result */
-    string jsonResult = "{\"status\":\"fail\", \"url\": \"" + urlString 
+    /* define default result */
+    if(jsonResult.empty()){
+        jsonResult = "{\"status\":\"fail\", \"url\": \"" + urlString 
                         + "\", \"method\": \"" + methodString + "\", "
                         + "\"payload\": " + std::to_string(uploadData.size()) + "}";
+    }
 
     /* it is absolutely vital to use MHD_RESPMEM_MUST_COPY as otherwise memory exceptions will occur.
         See further information here: https://www.gnu.org/software/libmicrohttpd/manual/html_node/microhttpd_002dresponse-create.html */

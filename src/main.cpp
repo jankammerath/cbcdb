@@ -56,11 +56,13 @@ int main() {
 
     /* get the required configuration for the service */
     int servicePort = 8080;
+    string storagePath = "./data";
     const Setting& root = cfg.getRoot();
     root.lookupValue("port",servicePort);
+    root.lookupValue("storagePath",storagePath);
 
     /* create an instance of the service */
-    Service* service = new Service(servicePort);
+    Service* service = new Service(servicePort,storagePath);
     Logger::write("This service is: " + service->getName());
 
     /* start the service */
