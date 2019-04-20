@@ -2,6 +2,8 @@
 #include <microhttpd.h>
 using namespace std;
 
+#pragma once
+
 struct HttpResult {
     int status;
     string content;
@@ -9,6 +11,7 @@ struct HttpResult {
 
 class HttpServer {
     public:
+        /* public methods */
         HttpServer(int serverPort, void* requestHandler);
         void start();
         void stop();
@@ -23,6 +26,10 @@ class HttpServer {
             void ** ptr);
 
     private:
+        /* private methods */
+        static string escapeJsonString(const string& input);
+
+        /* private members */
         int port;
         void* handler;
         struct MHD_Daemon* daemonHandle;

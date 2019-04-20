@@ -10,6 +10,15 @@ GET /mychainname/myblockid      the block "myblockid" in the chain "mychainname"
 
 Reserved internal chain names: user, peer
 
+## File structure
+
+The following file structure is used inside the storagePath.
+
+/chain                          where all the chains are
+/chain/mychainname              folder for the chain "mychainname"
+/chain/mychainname/block        folder for all blocks in "mychainname"
+
+
 ## Development information
 Development of cbcdb can be done inside the docker container
 

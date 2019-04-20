@@ -1,6 +1,7 @@
 #include <iostream>
 #include <microhttpd.h>
 #include <cstring>
+#include <sstream>
 using namespace std;
 #include "HttpServer.hpp"
 
@@ -78,15 +79,17 @@ int HttpServer::handleRequest(void * cls, struct MHD_Connection * connection,
     /* execute external request handler */
     HttpResult (*handlerFunc)(string,string,string) = (HttpResult(*)(string,string,string))cls;
     HttpResult httpResult = handlerFunc(methodString,urlString,uploadData);
-    string jsonResult = httpResult.content;
 
-    /* define default result */
-    if(jsonResult.empty()){
-        jsonResult = "{\"status\": " + std::to_string(httpResult.status)
+    /* make sure we have valid json even when result content is empty */
+    string content = httpResult.content;
+    if(content.empty()){ content = "{}"; }
+    
+    /* generate the json result document */
+    string jsonResult = "{\"status\": " + std::to_string(httpResult.status)
                         + ", \"url\": \"" + urlString 
                         + "\", \"method\": \"" + methodString + "\", "
-                        + "\"payload\": " + std::to_string(uploadData.size()) + "}";
-    }
+                        + "\"payload\": " + std::to_string(uploadData.size()) + ", "
+                        + "\"content\": " + content + "}";
 
     /* it is absolutely vital to use MHD_RESPMEM_MUST_COPY as otherwise memory exceptions will occur.
         See further information here: https://www.gnu.org/software/libmicrohttpd/manual/html_node/microhttpd_002dresponse-create.html */
@@ -99,6 +102,24 @@ int HttpServer::handleRequest(void * cls, struct MHD_Connection * connection,
     *ptr = NULL; 
 
     return result;
+}
+
+string HttpServer::escapeJsonString(const string& input) {
+    std::ostringstream ss;
+    for (auto iter = input.cbegin(); iter != input.cend(); iter++) {
+        switch (*iter) {
+            case '\\': ss << "\\\\"; break;
+            case '"': ss << "\\\""; break;
+            case '/': ss << "\\/"; break;
+            case '\b': ss << "\\b"; break;
+            case '\f': ss << "\\f"; break;
+            case '\n': ss << "\\n"; break;
+            case '\r': ss << "\\r"; break;
+            case '\t': ss << "\\t"; break;
+            default: ss << *iter; break;
+        }
+    }
+    return ss.str();
 }
 
 /* stops the http server */
