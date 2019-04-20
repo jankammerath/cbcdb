@@ -22,6 +22,19 @@ GetResponse* Storage::execute(GetRequest* request){
     return result;
 }
 
+PutResponse* Storage::execute(PutRequest* request){
+    PutResponse* result = new PutResponse();
+
+    /* check if the requested chain actually exists */
+    if(this->chainExists(request->getChainName())){
+
+    }else{
+        /* when the chain does not exist, create it */
+    }
+
+    return result;
+}
+
 Response* Storage::execute(Request* request){
     Response* result = new Response();
 
@@ -29,6 +42,10 @@ Response* Storage::execute(Request* request){
         case GET:
             /* this is a get request, execute as get request */
             result = this->execute((GetRequest*)request);
+            break;
+        case PUT:
+            /* this is a get request, execute as get request */
+            result = this->execute((PutRequest*)request);
             break;
     }
 
