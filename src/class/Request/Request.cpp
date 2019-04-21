@@ -27,6 +27,9 @@ Request* Request::createRequest(string method, string url, string data){
         result->setBlockId(pathList[1]);
     }
 
+    /* set the data for this request */
+    result->setJsonText(data);
+
     return result;
 }
 

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "Storage.hpp"
 #include "Block.hpp"
 using namespace std;
@@ -10,7 +11,8 @@ class Chain {
         Chain(Storage* chainStorage, string name);
         string getName();
         string getHeadIndex();
-        vector<Block> getBlockList();
+        vector<Block*> getBlockList();
+        Block* insert(string content);
         static Chain* create(Storage* chainStorage, string name);
 
     private:

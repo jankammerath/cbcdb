@@ -2,6 +2,8 @@
 #include "Response.hpp"
 using namespace std;
 
+#pragma once
+
 class PutResponse : public Response {
     public:
         PutResponse() : Response() {

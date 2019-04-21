@@ -3,6 +3,7 @@ using namespace std;
 
 #pragma once
 
+
 class Response {
     public:
         Response(){
@@ -24,7 +25,19 @@ class Response {
             return this->status;
         }
 
+        /* sets the chain for this response */
+        void setChain(void* requestChain){
+            this->chain = requestChain;
+        }
+
+        /* adds a new block to the response set */
+        void addBlock(void* newBlock){
+            this->blockList.push_back(newBlock);
+        }
+
     protected:
         /* protected members */
         int status;
+        void* chain;
+        vector<void*> blockList;
 };

@@ -1,6 +1,8 @@
 #include <iostream>
 using namespace std;
 
+#pragma once
+
 class Logger {
     public:
         static void write(string text){

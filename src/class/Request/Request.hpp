@@ -36,6 +36,10 @@ class Request {
             return this->type;
         }
 
+        string getJsonText(){
+            return this->jsonText;
+        }
+
         static Request* createRequest(string method, string url, string data);
         
     protected:

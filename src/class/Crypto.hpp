@@ -2,6 +2,8 @@
 #include <cstring>
 #include <openssl/sha.h>
 
+#pragma once
+
 using namespace std;
 
 class Crypto {

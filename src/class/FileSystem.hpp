@@ -1,6 +1,11 @@
 #include <iostream>
+#include <vector>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <dirent.h>
 using namespace std;
+
+#pragma once
 
 class FileSystem {
     public:
@@ -22,6 +27,22 @@ class FileSystem {
                 /* successfully created directory */
                 result = true;
             }
+
+            return result;
+        }
+
+        /* returns string with all filenames in the directory provided in path */
+        static vector<string> getDirectoryFileList(string path){
+            vector<string> result;
+
+            DIR *dp;
+            struct dirent *dirp;
+            if((dp  = opendir(path.c_str())) != NULL) {
+                while ((dirp = readdir(dp)) != NULL) {
+                    result.push_back(string(dirp->d_name));
+                }
+                closedir(dp);   
+            }        
 
             return result;
         }

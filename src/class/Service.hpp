@@ -2,6 +2,8 @@ using namespace std;
 #include "HttpServer.hpp"
 #include "Storage.hpp"
 
+#pragma once
+
 class Service {
     public:
         /* public methods */

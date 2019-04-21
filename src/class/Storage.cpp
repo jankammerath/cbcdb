@@ -42,11 +42,13 @@ GetResponse* Storage::execute(GetRequest* request){
 PutResponse* Storage::execute(PutRequest* request){
     PutResponse* result = new PutResponse();
 
-    /* check if the requested chain actually exists */
-    if(!this->chainExists(request->getChainName())){
-        /* when the chain does not exist, create it */
-        Chain* chain = Chain::create(this,request->getChainName());
-    }
+    /* the chain to operate on */
+    Chain* chain = Chain::create(this,request->getChainName());
+    Block* block = chain->insert(request->getJsonText());
+
+    /* set the result values */
+    result->setChain(chain);
+    result->addBlock(block);
 
     return result;
 }
