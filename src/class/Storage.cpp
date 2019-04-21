@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Storage.hpp"
 #include "FileSystem.hpp"
+#include "Chain.hpp"
 using namespace std;
 
 /* constructs the object and sets the storage path
@@ -27,9 +28,10 @@ PutResponse* Storage::execute(PutRequest* request){
 
     /* check if the requested chain actually exists */
     if(this->chainExists(request->getChainName())){
-
+        /* execute the block put */
     }else{
         /* when the chain does not exist, create it */
+        Chain* chain = Chain::create(this,request->getChainName());
     }
 
     return result;

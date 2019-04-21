@@ -28,6 +28,10 @@ class Request {
             return this->blockId;
         }
 
+        void setJsonText(string text){
+            this->jsonText = text;
+        }
+
         RequestType getType(){
             return this->type;
         }
@@ -45,4 +49,5 @@ class Request {
         /* private members */
         string chainName;
         string blockId;
+        string jsonText;
 };

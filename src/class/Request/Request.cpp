@@ -4,6 +4,7 @@
 using namespace std;
 #include "Request.hpp"
 #include "GetRequest.hpp"
+#include "PutRequest.hpp"
 
 /* creates a concrete request */
 Request* Request::createRequest(string method, string url, string data){
@@ -12,6 +13,8 @@ Request* Request::createRequest(string method, string url, string data){
     /* create a concrete object for the concrete request */
     if(method == "GET"){
         result = new GetRequest();
+    }if(method == "PUT"){
+        result = new PutRequest();
     }
 
     /* get a vector with all path items */

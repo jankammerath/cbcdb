@@ -1,13 +1,17 @@
 #include <iostream>
+#include "Storage.hpp"
 using namespace std;
+
+#pragma once
 
 class Chain {
     public:
-        Chain(bool internal);
+        Chain(Storage* chainStorage, string name);
         string getName();
+        static Chain* create(Storage* chainStorage, string name);
 
     private:
         string name;
         string uuid;
-        bool isInternal;
+        Storage* storage;
 };

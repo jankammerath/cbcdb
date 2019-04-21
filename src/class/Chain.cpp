@@ -1,11 +1,28 @@
 #include <iostream>
 using namespace std;
 #include "Chain.hpp"
+#include "FileSystem.hpp"
 
-Chain::Chain(bool internal){
-    /* user data and other things to manage
-        core functinality of the database
-        are also stored using the database
-        itself as internal chains */
-    this->isInternal = internal;
+Chain::Chain(Storage* chainStorage, string name){
+    this->storage = chainStorage;
+    this->name = name;
+}
+
+string Chain::getName(){
+    return this->name;
+}
+
+/* creates a new chain on the defined storage */
+Chain* Chain::create(Storage* chainStorage, string name){
+    Chain* result;
+
+    /* define the path of the storage */
+    string chainPath = chainStorage->getStoragePath() + "/chain/" + name;
+    if(!FileSystem::fileExists(chainPath)){
+        FileSystem::makeDir(chainPath);
+    }
+
+    cout << "Chain " << name << " created in " << chainPath << endl;
+
+    return result;
 }
