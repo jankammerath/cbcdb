@@ -12,6 +12,5 @@ class Chain {
 
     private:
         string name;
-        string uuid;
         Storage* storage;
 };

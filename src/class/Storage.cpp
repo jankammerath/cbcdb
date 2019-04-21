@@ -43,9 +43,7 @@ PutResponse* Storage::execute(PutRequest* request){
     PutResponse* result = new PutResponse();
 
     /* check if the requested chain actually exists */
-    if(this->chainExists(request->getChainName())){
-        /* execute the block put */
-    }else{
+    if(!this->chainExists(request->getChainName())){
         /* when the chain does not exist, create it */
         Chain* chain = Chain::create(this,request->getChainName());
     }
