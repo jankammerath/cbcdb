@@ -1,15 +1,15 @@
 #include "Block.hpp"
+#include "Crypto.hpp"
 
-string Block::getJson(){
-    string result = "";
+using namespace std;
 
-    
-
-    return result;
+Block::Block(string blockContent){
+    /* set the current timestamp as creation time */
+    this->created = time(NULL);
+    this->content = blockContent;
+    this->hash = Crypto::getSHA512(blockContent);
 }
 
-Block* Block::create(string content){
-    Block* result = new Block();
-
-    return result;
+void Block::store(){
+    
 }

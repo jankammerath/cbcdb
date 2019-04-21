@@ -26,9 +26,6 @@ class HttpServer {
             void ** ptr);
 
     private:
-        /* private methods */
-        static string escapeJsonString(const string& input);
-
         /* private members */
         int port;
         void* handler;

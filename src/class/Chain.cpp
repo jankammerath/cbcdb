@@ -3,6 +3,7 @@ using namespace std;
 #include "Chain.hpp"
 #include "FileSystem.hpp"
 #include "Logger.hpp"
+#include "Crypto.hpp"
 
 Chain::Chain(Storage* chainStorage, string name){
     this->storage = chainStorage;
@@ -28,9 +29,21 @@ vector<Block*> Chain::getBlockList(){
     return result;
 }
 
-/* inserts a new block into the chain */
+/* inserts a new block into the chain:
+    This is also where the core functionality of
+    the blockchain resides as it calculates each
+    blocks hash out of the hashes of the previous 
+    blocks with which it creates the "block chain" */
 Block* Chain::insert(string content){
-    Block* result;
+    Block* result = new Block(content);
+
+    /* calculate the index for this block */
+    string indexBaseValue = "";
+    vector<Block*> blockList = this->getBlockList();
+    for(int b=0; b<blockList.size(); b++){
+        indexBaseValue.append(blockList[b]->getIndex());
+    }
+    result->setIndex(Crypto::getSHA512(indexBaseValue));
 
     return result;
 }
