@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Storage.hpp"
+#include "Logger.hpp"
 #include "FileSystem.hpp"
 #include "Chain.hpp"
 using namespace std;
@@ -8,6 +9,21 @@ using namespace std;
     where all the database files are to be stored in */
 Storage::Storage(string storagePath){
     this->path = storagePath;
+
+    /* define vector with all paths required for storage */
+    vector<string> pathList = {this->path, (this->path + "/chain")};
+
+    /* check if the paths exist and if not, create them */
+    for(int p=0; p<pathList.size(); p++){
+        string pathItem = pathList[p];
+        if(!FileSystem::fileExists(pathItem)){
+            bool created = FileSystem::makeDir(pathItem);
+            if(created == false){
+                Logger::writeError("Storage path does not exist "
+                        "and could not create it in: " + this->path);
+            }            
+        }
+    }
 }
 
 /* executes a get request and returns a get response

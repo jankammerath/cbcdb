@@ -11,7 +11,7 @@ class FileSystem {
         }
 
         /* creates a directory using unix 'mkdir' equivalent */
-        bool makeDir(string path){
+        static bool makeDir(string path){
             bool result = false;
 
             int status = mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);

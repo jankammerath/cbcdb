@@ -19,10 +19,12 @@ Chain* Chain::create(Storage* chainStorage, string name){
     /* define the path of the storage */
     string chainPath = chainStorage->getStoragePath() + "/chain/" + name;
     if(!FileSystem::fileExists(chainPath)){
-        FileSystem::makeDir(chainPath);
+        bool created = FileSystem::makeDir(chainPath);
+        if(created == true){
+            /* chain successfully created */
+            cout << "Chain " << name << " created in " << chainPath << endl;
+        }
     }
-
-    cout << "Chain " << name << " created in " << chainPath << endl;
 
     return result;
 }
