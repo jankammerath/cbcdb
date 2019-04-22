@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -45,5 +46,12 @@ class FileSystem {
             }        
 
             return result;
+        }
+
+        /* writes content into the defined filename */
+        static void writeFile(string fileName, string content){
+            ofstream fileOutput(fileName);
+            fileOutput << content;
+            fileOutput.close();
         }
 };

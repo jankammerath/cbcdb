@@ -19,9 +19,15 @@ string Chain::getName(){
 vector<Block*> Chain::getBlockList(){
     vector<Block*> result;
 
+    if(this->storage == NULL || this->storage == nullptr){
+        cout << "storage is null" << endl;
+    }
+
+    cout << "storage path: " << this->storage->getStoragePath() << endl;
+
     /* get all files in the storage path */
-    vector<string> fileList = FileSystem::getDirectoryFileList
-            (this->storage->getStoragePath() + "/chain/" + name + "/block");
+    string dirName = this->storage->getStoragePath() + "/chain/" + this->getName() + "/block";
+    vector<string> fileList = FileSystem::getDirectoryFileList(dirName);
     for(int f=0; f<fileList.size(); f++){
         cout << "Block file: " << fileList[f] << endl;
     }
@@ -45,6 +51,11 @@ Block* Chain::insert(string content){
     }
     result->setIndex(Crypto::getSHA512(indexBaseValue));
 
+    /* flush the block to storage */
+    string blockFileName = this->storage->getStoragePath() 
+            + "/chain/" + name + "/block/" + result->getIndex();
+    FileSystem::writeFile(blockFileName,result->getJson());
+
     return result;
 }
 
@@ -59,7 +70,7 @@ string Chain::getHeadIndex(){
 
 /* creates a new chain on the defined storage */
 Chain* Chain::create(Storage* chainStorage, string name){
-    Chain* result;
+    Chain* result = new Chain(chainStorage,name);
 
     /* define the path of the storage */
     string chainPath = chainStorage->getStoragePath() + "/chain/" + name;

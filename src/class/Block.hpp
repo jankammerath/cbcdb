@@ -12,13 +12,11 @@ class Block {
         string getHash(){ return this->hash; };
         string getIndex(){ return this->index; };
         string getContent() { return this->content; };
+        string getJson();
 
         /* public methods: set */
         void setIndex(string indexValue){ this->index = indexValue; };
         void setContent(string contentValue){ this->content = contentValue; };
-
-        /* public methods: store and process */
-        void store();
 
     private:
         /* private members */

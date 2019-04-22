@@ -8,4 +8,4 @@ WORKDIR /cbcdb/
 RUN zypper -n install gcc-c++ make libconfig++-devel libmicrohttpd-devel jsoncpp-devel libopenssl-devel
 
 # install development tools
-RUN zypper -n install valgrind
+RUN zypper -n install valgrind gdb
