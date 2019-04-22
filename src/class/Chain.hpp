@@ -10,8 +10,8 @@ class Chain {
     public:
         Chain(Storage* chainStorage, string name);
         string getName();
-        string getHeadIndex();
-        vector<Block*> getBlockList();
+        vector<string> getBlockIdList();
+        Block* getBlockById(string blockId);
         Block* insert(string content);
         static Chain* create(Storage* chainStorage, string name);
 

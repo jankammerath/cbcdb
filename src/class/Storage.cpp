@@ -33,7 +33,13 @@ GetResponse* Storage::execute(GetRequest* request){
 
     /* check if the requested chain actually exists */
     if(this->chainExists(request->getChainName())){
+        /* create an instance of the chain requested from */
+        Chain* chain = new Chain(this,request->getChainName());
+        Block* block = chain->getBlockById(request->getBlockId());
 
+        /* set the result chain and block */
+        result->setChain(chain);
+        result->addBlock(block);
     }
 
     return result;

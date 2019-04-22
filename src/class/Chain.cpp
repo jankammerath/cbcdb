@@ -16,21 +16,26 @@ string Chain::getName(){
 
 /* returns a vector with all blocks in the chain
     ordered by the creation date */
-vector<Block*> Chain::getBlockList(){
-    vector<Block*> result;
-
-    if(this->storage == NULL || this->storage == nullptr){
-        cout << "storage is null" << endl;
-    }
-
-    cout << "storage path: " << this->storage->getStoragePath() << endl;
+vector<string> Chain::getBlockIdList(){
+    vector<string> result;
 
     /* get all files in the storage path */
     string dirName = this->storage->getStoragePath() + "/chain/" + this->getName() + "/block";
     vector<string> fileList = FileSystem::getDirectoryFileList(dirName);
     for(int f=0; f<fileList.size(); f++){
-        cout << "Block file: " << fileList[f] << endl;
+        if(fileList[f] != ".." && fileList[f] != "."){
+            /* this is an acrtual block */
+            result.push_back(fileList[f]);
+        }
     }
+
+    return result;
+}
+
+/* returns a pointer to a single block identified by its block id */
+Block* Chain::getBlockById(string blockId){
+    Block* result;
+
 
     return result;
 }
@@ -45,9 +50,9 @@ Block* Chain::insert(string content){
 
     /* calculate the index for this block */
     string indexBaseValue = "";
-    vector<Block*> blockList = this->getBlockList();
-    for(int b=0; b<blockList.size(); b++){
-        indexBaseValue.append(blockList[b]->getIndex());
+    vector<string> blockIdList = this->getBlockIdList();
+    for(int b=0; b<blockIdList.size(); b++){
+        indexBaseValue.append(blockIdList[b]);
     }
     result->setIndex(Crypto::getSHA512(indexBaseValue));
 
@@ -55,15 +60,6 @@ Block* Chain::insert(string content){
     string blockFileName = this->storage->getStoragePath() 
             + "/chain/" + name + "/block/" + result->getIndex();
     FileSystem::writeFile(blockFileName,result->getJson());
-
-    return result;
-}
-
-/* the head index is a SHA512 hash of all previous
-    head indices. The first head index is the SHA512
-    hash of the first block created */
-string Chain::getHeadIndex(){
-    string result = "";
 
     return result;
 }
