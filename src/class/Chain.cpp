@@ -36,6 +36,15 @@ vector<string> Chain::getBlockIdList(){
 Block* Chain::getBlockById(string blockId){
     Block* result;
 
+    /* check if the block exists on disk */
+    string blockPath = this->storage->getStoragePath() + "/chain/"
+                        + this->getName() + "/block/" + blockId;
+    if(FileSystem::fileExists(blockPath)){
+        /* block exists on disk, load it */
+        string blockString = FileSystem::readFile(blockPath);
+        result = Block::parse(blockString);
+    }
+
 
     return result;
 }

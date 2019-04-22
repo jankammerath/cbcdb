@@ -54,4 +54,12 @@ class FileSystem {
             fileOutput << content;
             fileOutput.close();
         }
+
+        /* reads a file and returns its content as string */
+        static string readFile(string fileName){
+            ifstream fileInput(fileName);
+            string result((istreambuf_iterator<char>(fileInput)),
+                                istreambuf_iterator<char>());
+            return result;
+        }
 };

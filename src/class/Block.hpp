@@ -17,6 +17,10 @@ class Block {
         /* public methods: set */
         void setIndex(string indexValue){ this->index = indexValue; };
         void setContent(string contentValue){ this->content = contentValue; };
+        void setCreated(int timestamp){ this->created = timestamp; };
+
+        /* public static methods */
+        static Block* parse(string jsonText);
 
     private:
         /* private members */
