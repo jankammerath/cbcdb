@@ -22,7 +22,7 @@ Block* Block::parse(string jsonText){
     Json::Value value;
     istringstream jsonStream(jsonText);
     jsonStream >> value;
-    result = new Block(value["content"].asString());
+    result = new Block(Crypto::decodeBase64(value["content"].asString()));
     result->setIndex(value["index"].asString());
     result->setCreated(value["created"].asInt());
 
@@ -30,13 +30,18 @@ Block* Block::parse(string jsonText){
 }
 
 /* returns this block as json object */
-string Block::getJson(){
+string Block::getJson(bool decoded){
     /* build the json value object */
     Json::Value resultObject(Json::objectValue);
     resultObject["index"] = this->getIndex();
     resultObject["hash"] = this->getHash();
     resultObject["created"] = this->created;
-    resultObject["content"] = this->getContent();
+
+    if(decoded == true){
+        resultObject["content"] = this->getDecodedContent();
+    }else{
+        resultObject["content"] = this->getContent(); 
+    }
 
     /* write the json string */
     Json::StreamWriterBuilder writerBuilder;

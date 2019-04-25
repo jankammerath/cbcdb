@@ -10,10 +10,11 @@ class Block {
         Block(string content);
 
         /* public methods: get */
-        string getHash(){ return Crypto::getSHA512(Crypto::decodeBase64(this->content)); };
+        string getHash(){ return Crypto::getSHA512(this->getDecodedContent()); };
         string getIndex(){ return this->index; };
         string getContent() { return this->content; };
-        string getJson();
+        string getDecodedContent(){ return Crypto::decodeBase64(this->content); };
+        string getJson(bool decoded = false);
 
         /* public methods: set */
         void setIndex(string indexValue){ this->index = indexValue; };

@@ -39,7 +39,7 @@ GetResponse* Storage::execute(GetRequest* request){
 
         /* set the result chain and block */
         result->setChain(chain->getName());
-        result->addBlock(block->getJson());
+        result->addBlock(block->getJson(true));
 
         /* update the status */
         result->setStatus(200);
@@ -57,7 +57,7 @@ PutResponse* Storage::execute(PutRequest* request){
 
     /* set the result values */
     result->setChain(chain->getName());
-    result->addBlock(block->getJson());
+    result->addBlock(block->getJson(true));
 
     /* update the status */
     result->setStatus(201);
