@@ -35,11 +35,21 @@ GetResponse* Storage::execute(GetRequest* request){
     if(this->chainExists(request->getChainName())){
         /* create an instance of the chain requested from */
         Chain* chain = new Chain(this,request->getChainName());
-        Block* block = chain->getBlockById(request->getBlockId());
-
-        /* set the result chain and block */
         result->setChain(chain->getName());
-        result->addBlock(block->getJson(true));
+
+        /* check if the block id is empty or not */
+        if(!request->getBlockId().empty()){
+            /* return the specifically requested block */
+            Block* block = chain->getBlockById(request->getBlockId());
+            result->addBlock(block->getJson(true));   
+        }else{
+            /* when empty, return all blocks in the chain */
+            vector<string> blockIdList = chain->getBlockIdList();
+            for(int i=0; i<blockIdList.size(); i++){
+                /* add this block to the result set */
+                result->addBlock(chain->getBlockById(blockIdList[i])->getJson(true)); 
+            }
+        }
 
         /* update the status */
         result->setStatus(200);
