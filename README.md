@@ -1,5 +1,7 @@
 # CBCDB - Cryptographic Blockchain Database
 
+The Cryptographic Blockchain Database aims to be a lightweight and simple blockchain database.
+
 # Architecture
 
 ## URL Structure

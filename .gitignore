@@ -1,6 +1,5 @@
 .vscode
 .header
-start.sh
-test.sh
+*.sh
 bin/
 data/
