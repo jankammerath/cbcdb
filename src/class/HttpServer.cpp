@@ -89,7 +89,7 @@ int HttpServer::handleRequest(void * cls, struct MHD_Connection * connection,
                         + ", \"url\": \"" + urlString 
                         + "\", \"method\": \"" + methodString + "\", "
                         + "\"payload\": " + std::to_string(uploadData.size()) + ", "
-                        + "\"content\": " + content + "}";
+                        + "\"result\": " + content + "}";
 
     /* it is absolutely vital to use MHD_RESPMEM_MUST_COPY as otherwise memory exceptions will occur.
         See further information here: https://www.gnu.org/software/libmicrohttpd/manual/html_node/microhttpd_002dresponse-create.html */

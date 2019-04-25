@@ -3,7 +3,6 @@
 
 #include "json/json.h"
 #include "Block.hpp"
-#include "Crypto.hpp"
 
 using namespace std;
 
@@ -11,8 +10,7 @@ using namespace std;
 Block::Block(string blockContent){
     /* set the current timestamp as creation time */
     this->created = time(NULL);
-    this->content = blockContent;
-    this->hash = Crypto::getSHA512(blockContent);
+    this->setContent(blockContent);
 }
 
 /* parses a block's json representation into
@@ -22,23 +20,28 @@ Block* Block::parse(string jsonText){
 
     /* open the json document */
     Json::Value value;
-    Json::CharReaderBuilder reader;
-    std::istringstream jsonStream(jsonText);
-    bool valid = Json::parseFromStream(reader,jsonStream,&value,NULL);
-    if(valid == true){
-        /* json is valid, get attributes and instance block */
-        result = new Block(value["content"].asString());
-        result->setIndex(value["index"].asString());
-        result->setCreated(value["created"].asInt());
-    } 
+    istringstream jsonStream(jsonText);
+    jsonStream >> value;
+    result = new Block(value["content"].asString());
+    result->setIndex(value["index"].asString());
+    result->setCreated(value["created"].asInt());
 
     return result;
 }
 
 /* returns this block as json object */
 string Block::getJson(){
-    return "{\"index\": \"" + this->index + "\","
-            + "\"hash\": \"" + this->hash + "\","
-            + "\"created\":" + std::to_string(this->created) + ","
-            + "\"content\": " + this->content + "}";
+    /* build the json value object */
+    Json::Value resultObject(Json::objectValue);
+    resultObject["index"] = this->getIndex();
+    resultObject["hash"] = this->getHash();
+    resultObject["created"] = this->created;
+    resultObject["content"] = this->getContent();
+
+    /* write the json string */
+    Json::StreamWriterBuilder writerBuilder;
+    writerBuilder["indentation"] = "\t";
+    string result = Json::writeString(writerBuilder, resultObject);
+
+    return result;
 }

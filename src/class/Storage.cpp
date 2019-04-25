@@ -38,8 +38,11 @@ GetResponse* Storage::execute(GetRequest* request){
         Block* block = chain->getBlockById(request->getBlockId());
 
         /* set the result chain and block */
-        result->setChain(chain);
-        result->addBlock(block);
+        result->setChain(chain->getName());
+        result->addBlock(block->getJson());
+
+        /* update the status */
+        result->setStatus(200);
     }
 
     return result;
@@ -53,8 +56,11 @@ PutResponse* Storage::execute(PutRequest* request){
     Block* block = chain->insert(request->getJsonText());
 
     /* set the result values */
-    result->setChain(chain);
-    result->addBlock(block);
+    result->setChain(chain->getName());
+    result->addBlock(block->getJson());
+
+    /* update the status */
+    result->setStatus(201);
 
     return result;
 }

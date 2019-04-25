@@ -1,4 +1,6 @@
 #include <iostream>
+#include <sstream>
+#include "json/json.h"
 using namespace std;
 
 #pragma once
@@ -10,8 +12,28 @@ class Response {
             this->status = 400;
         }
 
+        /* returns response as json string */
         string getJson(){
-            return "";
+            Json::Value resultObject(Json::objectValue);
+            resultObject["status"] = this->status;
+            resultObject["chain"] = this->chainName;
+
+            /* write the array with all blocks */
+            Json::Value list(Json::arrayValue);
+            for(int b=0; b<this->blockList.size(); b++){
+                /* parse the block and add as json object */
+                Json::Value blockValue;
+                istringstream jsonBlockStream(blockList[b]);
+                jsonBlockStream >> blockValue;
+                list.append(blockValue);
+            }
+            resultObject["blockList"] = list;
+
+            Json::StreamWriterBuilder writerBuilder;
+            writerBuilder["indentation"] = "\t";
+            string result = Json::writeString(writerBuilder, resultObject);
+
+            return result;
         };
 
         /* sets the status as int using HTTP status codes:
@@ -26,18 +48,18 @@ class Response {
         }
 
         /* sets the chain for this response */
-        void setChain(void* requestChain){
-            this->chain = requestChain;
+        void setChain(string requestChain){
+            this->chainName = requestChain;
         }
 
         /* adds a new block to the response set */
-        void addBlock(void* newBlock){
+        void addBlock(string newBlock){
             this->blockList.push_back(newBlock);
         }
 
     protected:
         /* protected members */
         int status;
-        void* chain;
-        vector<void*> blockList;
+        string chainName;
+        vector<string> blockList;
 };
